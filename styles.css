@@ -1,44 +1,90 @@
-/*  your css code here. If applicable */
-/* Center the circles on the page */
+/* simple reset */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* center the output similar to your screenshot */
 body {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: white;
+  align-items: flex-start; /* keep it a bit from very top like screenshot */
+  padding-top: 24px;
+  background: white;
 }
 
-/* Outer circle - Red */
+/* Outer circle - 300x300 red */
 #outer {
   width: 300px;
   height: 300px;
-  background-color: #ff0000;
+  background-color: #ff0000;      /* red */
   border-radius: 50%;
+  position: relative;             /* for pseudo elements to position against */
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 0;
 }
 
-/* Middle circle - Orange & Yellow (using padding to create rings) */
-#middle {
+/* two circles created from outer's pseudo elements:
+   250x250 orange and 200x200 yellow */
+#outer::before,
+#outer::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* 250x250 orange ring */
+#outer::before {
   width: 250px;
   height: 250px;
-  background-color: #ffa500;
+  background-color: #ffa500;     /* orange */
+  z-index: 1;
+}
+
+/* 200x200 yellow ring */
+#outer::after {
+  width: 200px;
+  height: 200px;
+  background-color: #ffff00;     /* yellow */
+  z-index: 2;
+}
+
+/* Middle circle - 150x150 green (nested) */
+#middle {
+  width: 150px;
+  height: 150px;
+  background-color: #008000;     /* green */
   border-radius: 50%;
+  position: relative;            /* for its pseudo element */
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow:
-    0 0 0 25px #ffff00,  /* Yellow ring */
-    0 0 0 50px #008000,  /* Green ring */
-    0 0 0 75px #0000ff,  /* Blue ring */
-    0 0 0 100px #800080; /* Purple ring */
+  z-index: 3;
 }
 
-/* Inner circle (center) - Blue to Purple transition handled by box-shadow */
+/* Middle's pseudo element makes the 100x100 blue circle */
+#middle::before {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background-color: #0000ff;     /* blue */
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+}
+
+/* Inner circle - 50x50 purple (nested inside middle) */
 #inner {
   width: 50px;
   height: 50px;
+  background-color: #800080;     /* purple */
   border-radius: 50%;
-  background-color: #800080;
+  z-index: 5;
 }
